@@ -1,68 +1,108 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const board = [
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', '']
-    ];
-  
-    let currentPlayer = 'X';
-    const cells = document.querySelectorAll('.cell');
-    const message = document.getElementById('message');
-  
-    cells.forEach(cell => {
-      cell.addEventListener('click', handleClick);
-    });
-  
-    function handleClick(event) {
-      const row = parseInt(event.target.dataset.row);
-      const col = parseInt(event.target.dataset.col);
-  
-      if (board[row][col] === '') {
-        board[row][col] = currentPlayer;
-        event.target.textContent = currentPlayer;
-  
-        if (checkWin()) {
-          message.textContent = `Player ${currentPlayer} wins!`;
-          cells.forEach(cell => cell.removeEventListener('click', handleClick));
-        } else if (checkDraw()) {
-          message.textContent = 'It\'s a draw!';
-        } else {
-          currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-          message.textContent = `Player ${currentPlayer}'s turn`;
-        }
-      }
-    }
-  
-    function checkWin() {
-      // Check rows, columns, and diagonals for winning combinations
-      for (let i = 0; i < 3; i++) {
-        if (
-          (board[i][0] !== '' && board[i][0] === board[i][1] && board[i][0] === board[i][2]) ||
-          (board[0][i] !== '' && board[0][i] === board[1][i] && board[0][i] === board[2][i])
-        ) {
-          return true;
-        }
-      }
-  
-      if (
-        (board[0][0] !== '' && board[0][0] === board[1][1] && board[0][0] === board[2][2]) ||
-        (board[0][2] !== '' && board[0][2] === board[1][1] && board[0][2] === board[2][0])
-      ) {
-        return true;
-      }
-  
-      return false;
-    }
-  
-    function checkDraw() {
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-          if (board[i][j] === '') {
-            return false;
-          }
-        }
-      }
-      return true;
-    }
+let btnRef = document.querySelectorAll(".button-option");
+let popupRef = document.querySelector(".popup");
+let newgameBtn = document.getElementById("new-game");
+let restartBtn = document.getElementById("restart");
+let msgRef = document.getElementById("message");
+//Winning Pattern Array
+let winningPattern = [
+  [0, 1, 2],
+  [0, 3, 6],
+  [2, 5, 8],
+  [6, 7, 8],
+  [3, 4, 5],
+  [1, 4, 7],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+//Player 'X' plays first
+let xTurn = true;
+let count = 0;
+
+//Disable All Buttons
+const disableButtons = () => {
+  btnRef.forEach((element) => (element.disabled = true));
+  //enable popup
+  popupRef.classList.remove("hide");
+};
+
+//Enable all buttons (For New Game and Restart)
+const enableButtons = () => {
+  btnRef.forEach((element) => {
+    element.innerText = "";
+    element.disabled = false;
   });
-  
+  //disable popup
+  popupRef.classList.add("hide");
+};
+
+//This function is executed when a player wins
+const winFunction = (letter) => {
+  disableButtons();
+  if (letter == "X") {
+    msgRef.innerHTML =  'X Wins!!';
+  } else {
+    msgRef.innerHTML =  'O Wins!!';
+  }
+};
+
+//Function for draw
+const drawFunction = () => {
+  disableButtons();
+  msgRef.innerHTML = "opps!!<br> It's a Draw";
+};
+
+//New Game
+newgameBtn.addEventListener("click", () => {
+  count = 0;
+  enableButtons();
+});
+restartBtn.addEventListener("click", () => {
+  count = 0;
+  enableButtons();
+});
+
+//Win Logic
+const winChecker = () => {
+  //Loop through all win patterns
+  for (let i of winningPattern) {
+    let [element1, element2, element3] = [
+      btnRef[i[0]].innerText,
+      btnRef[i[1]].innerText,
+      btnRef[i[2]].innerText,
+    ];
+    //Check if elements are filled
+    //If 3 empty elements are same and would give win as would
+    if (element1 != "" && (element2 != "") & (element3 != "")) {
+      if (element1 == element2 && element2 == element3) {
+        //If all 3 buttons have same values then pass the value to winFunction
+        winFunction(element1);
+      }
+    }
+  }
+};
+
+//Display X/O on click
+btnRef.forEach((element) => {
+  element.addEventListener("click", () => {
+    if (xTurn) {
+      xTurn = false;
+      //Display X
+      element.innerText = "X";
+      element.disabled = true;
+    } else {
+      xTurn = true;
+      //Display Y
+      element.innerText = "O";
+      element.disabled = true;
+    }
+    //Increment count on each click
+    count += 1;
+    if (count == 9) {
+      drawFunction();
+    }
+    //Check for win on every click
+    winChecker();
+  });
+});
+//Enable Buttons and disable popup on page load
+window.onload = enableButtons;

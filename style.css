@@ -1,46 +1,101 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .container {
-    text-align: center;
-  }
-  
-  h1 {
-    margin-top: 0;
-  }
-  
-  .game {
-    margin-top: 20px;
-  }
-  
-  #board {
-    border-collapse: collapse;
-    margin: 0 auto;
-  }
-  
-  .cell {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #000;
-    cursor: pointer;
-    text-align: center;
-    font-size: 24px;
-  }
-  
-  .cell:hover {
-    background-color: #f9f9f9;
-  }
-  
-  #message {
-    font-weight: bold;
-    margin-top: 20px;
-  }
-  
+  height: 100vh;
+  background-color: #78c7ff; /* Updated background color */
+}
+
+html {
+  font-size: 16px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 60px;
+  margin-left: 29px;
+  font-size: 3em;
+  color: #ffffff;
+}
+
+.wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 65%;
+  left: 50%;
+}
+
+.container {
+  margin-left: 50px;
+  width: 70vmin;
+  height: 70vmin;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vmin;
+}
+
+.button-option {
+  background: #f5f5f5; /* Updated button background color */
+  height: 20vmin;
+  width: 20vmin;
+  border: none;
+  border-radius: 8px;
+  font-size: 12vmin;
+  color: #373536;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+#restart {
+  font-size: 1em;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #333333; /* Updated restart button background color */
+  color: #ffffff;
+  border: none;
+  position: relative;
+  margin: 1em;
+  margin-left: 200px;
+  display: block;
+}
+
+.popup {
+  background-image: url('bg.jpg');
+  height: 85%;
+  width: 65%;
+  position: absolute;
+  display: flex;
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1em;
+  margin-top: 20px;
+  margin-bottom: 130px;
+  margin-left: 250px;
+  font-size: 12vmin;
+  border: 2px solid #040303;
+  background-color: #74c0ff; /* Updated popup background color */
+}
+
+#new-game {
+  font-size: 0.5em;
+  padding: 15px;
+  background-color: #161818; /* Updated new game button background color */
+  color: #ffffff;
+  border-radius: 0.2em;
+  border: none;
+}
+
+#message {
+  color: #fffefe;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.popup.hide {
+  display: none;
+}
